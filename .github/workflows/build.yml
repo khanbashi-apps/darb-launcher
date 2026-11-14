@@ -1,0 +1,62 @@
+name: Build APK
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Build debug APK
+        run: |
+          chmod +x ./gradlew
+          ./gradlew assembleDebug --stacktrace
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: darb-debug-apk
+          path: app/build/outputs/apk/debug/*.apk
+
+      - name: Rename APK
+        if: github.event_name != 'pull_request'
+        run: |
+          VER=$(grep -oP 'versionName\s*=\s*"\K[^"]+' app/build.gradle.kts)
+          echo "VER=$VER" >> $GITHUB_ENV
+          cp app/build/outputs/apk/debug/*.apk "Darb-v$VER.apk"
+
+      - name: Remove old 0.x releases
+        if: github.event_name != 'pull_request'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          for t in $(gh release list --repo "$GITHUB_REPOSITORY" --limit 50 --json tagName --jq '.[].tagName' | grep '^v0\.' || true); do
+            gh release delete "$t" --repo "$GITHUB_REPOSITORY" --cleanup-tag -y || true
+          done
+          gh api -X DELETE "repos/$GITHUB_REPOSITORY/git/refs/heads/v0.1" || true
+          gh api -X DELETE "repos/$GITHUB_REPOSITORY/git/refs/tags/v0.1.0" || true
+
+      - name: Publish release (direct APK download)
+        if: github.event_name != 'pull_request'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ env.VER }}
+          name: درب v${{ env.VER }}
+          target_commitish: ${{ github.sha }}
+          prerelease: false
+          files: Darb-v${{ env.VER }}.apk
