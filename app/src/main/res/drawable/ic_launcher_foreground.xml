@@ -1,3 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Darb icon — concept 3.3: the dal is the gauge needle, arrow tip + ticks -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="108dp"
     android:height="108dp"
@@ -8,29 +10,48 @@
         android:scaleY="0.62"
         android:translateX="23"
         android:translateY="21.8">
+        <!-- ticks -->
+        <path
+            android:fillColor="#00000000"
+            android:strokeColor="#55555C"
+            android:strokeWidth="1.6"
+            android:strokeLineCap="round"
+            android:pathData="M32,70 L36.2,65.8 M25.7,59.9 L29.6,58.6 M24.8,48 L28.8,48.6 M29.4,37 L32.6,39.4 M38.4,29.3 L40.2,32.8 M50,26.5 L50,32.5 M61.6,29.3 L59.8,32.8 M70.6,37 L67.4,39.4 M75.2,48 L71.2,48.6 M74.3,59.9 L70.4,58.6 M68,70 L63.8,65.8" />
+        <!-- track -->
         <path
             android:fillColor="#00000000"
             android:strokeColor="#2A2A2E"
             android:strokeWidth="7"
             android:strokeLineCap="round"
             android:pathData="M27.4,74.6 A32,32 0 1,1 72.6,74.6" />
+        <!-- progress -->
         <path
             android:fillColor="#00000000"
             android:strokeColor="#FF4A3D"
             android:strokeWidth="7"
             android:strokeLineCap="round"
-            android:pathData="M27.4,74.6 A32,32 0 0,1 64.6,23.8" />
-        <path
-            android:fillColor="#FFFFFF"
-            android:strokeColor="#FF4A3D"
-            android:strokeWidth="2.4"
-            android:pathData="M64.6,18.6 A5.2,5.2 0 1,1 64.59,18.6 Z" />
+            android:pathData="M27.4,74.6 A32,32 0 0,1 34,24.3" />
+        <!-- dal: lower stroke -->
         <path
             android:fillColor="#00000000"
             android:strokeColor="#FFFFFF"
             android:strokeWidth="8"
             android:strokeLineCap="round"
             android:strokeLineJoin="round"
-            android:pathData="M43,38 C49,40 56,46 57,55 C58,63 53,66 46,66 L40,66" />
+            android:pathData="M57,57 Q60,63 54,66 L35,66" />
+        <!-- dal: arrow head -->
+        <path
+            android:fillColor="#FFFFFF"
+            android:strokeColor="#FFFFFF"
+            android:strokeWidth="2"
+            android:strokeLineJoin="round"
+            android:pathData="M55,46.2 L36.3,27.6 L47.5,51.5 Z" />
+        <!-- dal: shaft -->
+        <path
+            android:fillColor="#00000000"
+            android:strokeColor="#FFFFFF"
+            android:strokeWidth="8"
+            android:strokeLineCap="round"
+            android:pathData="M55.8,55.4 L50.7,48" />
     </group>
 </vector>
